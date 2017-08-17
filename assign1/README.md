@@ -28,7 +28,7 @@ python file_handle.py
 ```
 File handler creates a subset corpus in the `data` folder, with each document formatted and labelled with an ID.
 
-We will now build the index for our subset corpus
+We will now build the index for our subset corpus.
 Build the index using `index.py`
 ```bash
 python index.py
