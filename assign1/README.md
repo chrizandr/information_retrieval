@@ -34,7 +34,7 @@ Build the index using `index.py`
 python index.py
 ```
 
-Once the index is built we can run queries on the corpus
+Once the index is built we can run queries on the corpus.
 Search the corpus using the built index with `search.py`
 ```python
 from search import search
