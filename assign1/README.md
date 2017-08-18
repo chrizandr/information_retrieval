@@ -13,19 +13,16 @@ Create a data folder in the same directory as the source code, this is where the
 mkdir data
 ```
 The corpus is extremely large, it is advised to use only a subset of the corpus.
-We use `file_handle.py` for this. Change parameters in `file_handle.py`
+We use `file_handle.py` for this. Use the methods in `file_handle` to create a script such as this.
 ```python
+from file_handle import format_files
 
 corpus_size = 5000      # The number of documents you want in the subset corpus
 data_path = "path/to/extracted/data/folders"
 
 format_files(root_path=data_path, n=corpus_size)
 ```
-Run `file_handle.py`
-
-```bash
-python file_handle.py
-```
+Run this script. Alternatively, you can modify the paramteres in the main method of `file_handle.py` and run the script.
 File handler creates a subset corpus in the `data` folder, with each document formatted and labelled with an ID.
 
 We will now build the index for our subset corpus.
