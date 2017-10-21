@@ -29,18 +29,16 @@ class PageRank():
         else:
             self.pages = page_ids
 
-    def outgoing(self, page):
+    def outgoing(self, pages):
         """Give the number of outgoing links from a page."""
-        return len(self.link_matrix[self.pages[page], :].nonzero()[0])
+        return np.array([len(self.link_matrix[self.pages[page], :].nonzero()[0]) for page in pages])
 
     def page_rank(self, page):
         """Calculate the page rank of a given page."""
         incoming_links = self.link_matrix[:, self.pages[page]].nonzero()[0]
         incoming_score = 0.0
 
-        for link in incoming_links:
-            incoming_score += self.page_scores[link]/self.outgoing(link)
-
+        incoming_score = np.sum(self.page_scores[incoming_links]/self.outgoing(incoming_links))
         score = (1-self.damping) + self.damping*(incoming_score)
 
         return score
