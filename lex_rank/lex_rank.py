@@ -1,11 +1,11 @@
-"""Main implementation of Page Rank algorithm."""
+"""Main implementation of Lex Rank algorithm."""
 
 import numpy as np
 import pdb
 
 
-class PageRank:
-    """Class for PageRank."""
+class LexRankCompute:
+    """Class for LexRank."""
 
     def __init__(self, num_pages, link_matrix=None, page_scores=None, page_ids=None, damping_factor=0.85):
         """Constructor."""
@@ -13,7 +13,7 @@ class PageRank:
         self.damping = damping_factor
 
         if link_matrix is None:
-            self.link_matrix = np.zeros((self.num_pages, self.num_pages), dtype=int)
+            self.link_matrix = np.zeros((self.num_pages, self.num_pages), dtype=float)
         else:
             self.link_matrix = link_matrix
 
@@ -29,22 +29,18 @@ class PageRank:
         else:
             self.pages = page_ids
 
-    def outgoing(self, pages):
-        """Give the number of outgoing links from a page."""
-        return np.array([len(self.link_matrix[self.pages[page], :].nonzero()[0]) for page in pages])
-
     def page_rank(self, page):
         """Calculate the page rank of a given page."""
         incoming_links = self.link_matrix[:, self.pages[page]].nonzero()[0]
         incoming_score = 0.0
 
-        incoming_score = np.sum(self.page_scores[incoming_links]/self.outgoing(incoming_links))
-        score = (1-self.damping) + self.damping*(incoming_score)
+        incoming_score = np.sum(self.page_scores[self.pages[page]]*incoming_links)
+        score = (1-self.damping)/len(self.pages) + self.damping*(incoming_score)
 
         return score
 
     def update_scores(self):
-        """Update all the Page Ranks for all the pages."""
+        """Update all the Lex Ranks for all the pages."""
         new_scores = np.ones((self.num_pages), dtype=float)
 
         for page in self.pages:
@@ -60,13 +56,14 @@ class PageRank:
 
 
 if __name__ == "__main__":
-    a = np.zeros((4, 4))
-    a[0, 1] = 1
-    a[0, 2] = 1
-    a[1, 2] = 1
-    a[2, 0] = 1
-    a[3, 2] = 1
+    a = np.array([
+        [0.0, 0.5, 0.0, 0.4, 0.1],
+        [0.5, 0.0, 0.5, 0.0, 0.0],
+        [0.0, 0.5, 0.0, 0.5, 0.0],
+        [0.4, 0.0, 0.4, 0.0, 0.2],
+        [0.3, 0.0, 0.0, 0.7, 0.0]
+    ])
 
-    PR = PageRank(4, a)
-    PR.iterate(20)
+    LR = LexRankCompute(4, a)
+    LR.iterate(1)
     pdb.set_trace()
